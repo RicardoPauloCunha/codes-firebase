@@ -41,24 +41,24 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("usuario", usuario);
             currentUser = usuario;
 
-            // // Mudando o idioma do firebase
-            // firebase.auth().languageCode = 'pt';
+            // Mudando o idioma do firebase
+            firebase.auth().languageCode = 'pt';
 
-            // // Muda o idioma com base no aparelho
-            // firebase.auth().useDeviceLanguage();
+            // Muda o idioma com base no aparelho
+            firebase.auth().useDeviceLanguage();
 
-            // // Caso não tenha verificado o email
-            // if (!usuario.emailVerified) {
-            //     // Envia um email para a conta do usuário
-            //     usuario.sendEmailVerification().then(() => {
-            //         alert('Email de verificação enviado')
-            //     })
-            // }
+            // Caso não tenha verificado o email
+            if (!usuario.emailVerified) {
+                // Envia um email para a conta do usuário
+                usuario.sendEmailVerification().then(() => {
+                    alert('Email de verificação enviado')
+                })
+            }
 
-            // // Envia email para mudança de senha para o email do usuário
-            // firebase.auth().sendPasswordResetEmail(usuario.email).then(() => {
-            //     alert("Email para resete de senha enviado")
-            // })
+            // Envia email para mudança de senha para o email do usuário
+            firebase.auth().sendPasswordResetEmail(usuario.email).then(() => {
+                alert("Email para resete de senha enviado")
+            })
         }
         else
             console.log("Não há usuário logado")
@@ -74,14 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
             displayName: "Ricardo Paulo",
             photoURL: ""
         });
-        // currentUser.updateEmail('ricardo@gmail.com');
-        // currentUser.updatePassword('ricardo321');
-        // currentUser.updatePhoneNumber('+55119xxxxxxxx');
+        currentUser.updateEmail('ricardo@gmail.com');
+        currentUser.updatePassword('ricardo321');
+        currentUser.updatePhoneNumber('+55119xxxxxxxx');
     }
 });
 
 /*
- * Deleeta um usuário 
+ * Deleta um usuário 
  */
 function deletaUsuario() {
     if (currentUser) {

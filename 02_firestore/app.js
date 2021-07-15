@@ -18,11 +18,11 @@ function criarCard() {
     // .colletion: referencia a coleção
     // .doc: referencia o documento
     // .set: insere o objeto passado por parametro na referencia
-    // firebase.firestore().collection("cards").doc("1").set(card)
-    // .then(() => {
-    //     console.log("Dados salvos");
-    //     adicionaCardATela(card, 1);
-    // });
+    firebase.firestore().collection("cards").doc("1").set(card)
+        .then(() => {
+            console.log("Dados salvos");
+            adicionaCardATela(card, 1);
+        });
 
     firebase.firestore().collection("cards").add(card).then(() => {
         console.log("Dados salvos");
@@ -36,29 +36,29 @@ function criarCard() {
     // Para criar uma operação do set, preciso da referencia dos documento e os dados que deseja inserir
     // Ao criar todos os métodos é necessário executar o método .commit para executar todas as operações
     // Com bath, ou são gravados todas as operações ou nenhuma é gravada
-    // var batch = firebase.firestore().batch();
+    var batch = firebase.firestore().batch();
 
-    // var cards = [];
+    var cards = [];
 
-    // for (var i = 0; i < 3; i++) {
-    //     let doc = {
-    //         nome: NOMES[Math.floor(Math.random() * NOMES.length - 1)],
-    //         idade: Math.floor(Math.random() * 22 + 18),
-    //         curtidas: 0
-    //     }
+    for (var i = 0; i < 3; i++) {
+        let doc = {
+            nome: NOMES[Math.floor(Math.random() * NOMES.length - 1)],
+            idade: Math.floor(Math.random() * 22 + 18),
+            curtidas: 0
+        }
 
-    //     cards.push(doc);
+        cards.push(doc);
 
-    //     let ref = firebase.firestore().collection('cards').doc(String(i));
+        let ref = firebase.firestore().collection('cards').doc(String(i));
 
-    //     batch.set(ref, doc);
-    // }
+        batch.set(ref, doc);
+    }
 
-    // batch.commit(() => {
-    //     for (var i = 0; i < cards.length; i++) {
-    //         adicionaCardATela(cards[i], i);
-    //     }
-    // })
+    batch.commit(() => {
+        for (var i = 0; i < cards.length; i++) {
+            adicionaCardATela(cards[i], i);
+        }
+    })
 };
 
 /**
@@ -75,9 +75,9 @@ function deletar(id) {
     });
 
     // Para remover uma propriedade do documento podemos dar um update e passamos o objeto método de .delete vindo do firebase.firestore.FieldValue.delete()
-    // firebase.firestore().collection('cards').doc(id).update({curtidas: firebase.firestore.FieldValue.delete()}).then(() => {
-    //     console.log("Removido curtidas")
-    // })
+    firebase.firestore().collection('cards').doc(id).update({ curtidas: firebase.firestore.FieldValue.delete() }).then(() => {
+        console.log("Removido curtidas")
+    })
 };
 
 /**
@@ -124,91 +124,91 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // // Busca o resulto apenas uma vez
     firebase.firestore().collection("cards").get().then(snapshot => {
-        //     // Documentos dentro da minha coleção, retorna uma obejto e devese utilizar o foreach
-        //     // snapshot.docs()
+        // Documentos dentro da minha coleção, retorna uma obejto e devese utilizar o foreach
+        snapshot.docs()
 
-        //     // Prop que retorna um boleano se o snapshop estiver vazio
-        //     // snapshot.empty()
+        // Prop que retorna um boleano se o snapshop estiver vazio
+        snapshot.empty()
 
-        //     // São os metadatas da coleção
-        //     // snapshot.metadata()
+        // São os metadatas da coleção
+        snapshot.metadata()
 
-        //     // Retorna a query urilizada no filto para esse get
-        //     // snapshot.query()
+        // Retorna a query urilizada no filto para esse get
+        snapshot.query()
 
-        //     // Numero de documentos dentro da coleção
-        //     // snapshot.size()
+        // Numero de documentos dentro da coleção
+        snapshot.size()
 
-        //     // Retorna um array com as mudanças que essa coleção sofreu desde a ultima leitura
-        //     // snapshot.docChange()
+        // Retorna um array com as mudanças que essa coleção sofreu desde a ultima leitura
+        snapshot.docChange()
 
         snapshot.docs.forEach(card => {
-            //         // Retorna os dados do documento
-            //         // card.data()
+            // Retorna os dados do documento
+            card.data()
 
-            //         // Retorna o UID do seu documento
-            //         // card.data()
+            // Retorna o UID do seu documento
+            card.data()
 
-            //         // Retorna um boleano caso o documento passado seja igual ao documento utilizado (serve para docs e colletions)
-            //         // card.isEqual(doc)
+            // Retorna um boleano caso o documento passado seja igual ao documento utilizado (serve para docs e colletions)
+            card.isEqual(doc)
 
             adicionaCardATela(card.data(), card.id);
         });
     });
 
-    // // .on: observadno em tempo real
-    // firebase.firestore().collection('cards').onSnapshot(snapshot => {
-    //     // Usar dessa forma é equivalente ao .on("value") do realtemi database
-    //     // snapshot.docs.forEach();
+    // .on: observadno em tempo real
+    firebase.firestore().collection('cards').onSnapshot(snapshot => {
+        // Usar dessa forma é equivalente ao .on("value") do realtemi database
+        snapshot.docs.forEach();
 
-    //     // Tras todos os dados com o evento de added na primeira chamada
-    //     // E depois traz os documentos que sofreram alterações
-    //     snapshot.docChanges().forEach(card => {
-    //         if (card.type == 'added')
-    //             adicionaCardATela(card.doc.data(), card.doc.id);
+        // Tras todos os dados com o evento de added na primeira chamada
+        // E depois traz os documentos que sofreram alterações
+        snapshot.docChanges().forEach(card => {
+            if (card.type == 'added')
+                adicionaCardATela(card.doc.data(), card.doc.id);
 
-    //         if (card.type == 'modified')
-    //             console.log("Modificado")
+            if (card.type == 'modified')
+                console.log("Modificado")
 
-    //         if (card.type == 'removed')
-    //             console.log("Modificado")
-    //     })
-    // })
+            if (card.type == 'removed')
+                console.log("Modificado")
+        })
+    })
 
     // Filtros
 
     // Retorna dados que obedecerem a condição passada
     // Não aceita || ou && e nem !=
-    // firebase.firestore().collection('cards').where('idade', '>', 30).get().then(snapshot => {
-    //     snapshot.docs.forEach(card => {
-    //         adicionaCardATela(card.data(), card.id);
-    //     });
-    // });
+    firebase.firestore().collection('cards').where('idade', '>', 30).get().then(snapshot => {
+        snapshot.docs.forEach(card => {
+            adicionaCardATela(card.data(), card.id);
+        });
+    });
 
-    // firebase.firestore().collection('cards').where('idade', '>', 30).where('idade', '<', 40).get().then(snapshot => {
-    //     snapshot.docs.forEach(card => {
-    //         adicionaCardATela(card.data(), card.id);
-    //     });
-    // });
+    firebase.firestore().collection('cards').where('idade', '>', 30).where('idade', '<', 40).get().then(snapshot => {
+        snapshot.docs.forEach(card => {
+            adicionaCardATela(card.data(), card.id);
+        });
+    });
 
     // Ordenação "asc" ou "desc"
 
     // Order palo campo e pelo tipo de ordenação passados,  tipo não obrigatório
     // Ao usar junto com o whete deve usar no mesmo campo
-    // firebase.firestore().collection('cards').where('curtidas', '>', 0).orderBy("curtidas", 'desc').get().then(snapshot => {
-    //     snapshot.docs.forEach(card => {
-    //         adicionaCardATela(card.data(), card.id);
-    //     });
-    // });
+    firebase.firestore().collection('cards').where('curtidas', '>', 0).orderBy("curtidas", 'desc').get().then(snapshot => {
+        snapshot.docs.forEach(card => {
+            adicionaCardATela(card.data(), card.id);
+        });
+    });
 
     // Limites
 
     // Retorna a quantidade de item passados no parametro
-    // firebase.firestore().collection('cards').limit(3).get().then(snapshot => {
-    //     snapshot.docs.forEach(card => {
-    //         adicionaCardATela(card.data(), card.id);
-    //     });
-    // });
+    firebase.firestore().collection('cards').limit(3).get().then(snapshot => {
+        snapshot.docs.forEach(card => {
+            adicionaCardATela(card.data(), card.id);
+        });
+    });
 
     // Cursores / Filtros
     // startAt: começa a filtrar no valor passado, funciona como o operador >=

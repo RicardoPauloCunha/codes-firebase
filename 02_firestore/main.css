@@ -19,8 +19,7 @@
   grid-template: 1fr / repeat(3, 1fr);
 }
 
-.card-inner div,
-.card-inner button {
+.card-inner div, .card-inner button {
   display: flex;
   justify-self: center;
 }

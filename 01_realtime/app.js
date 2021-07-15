@@ -24,14 +24,14 @@ function criarCard() {
     // Insera dados no firebase
     // Set: Seta os dados
     // Child: Acessa o nome filho passado pelo parametro
-    // ref.child(card.nome).set(card).then(() => {
-    //     adicionaCardATela(card);
-    // })
+    ref.child(card.nome).set(card).then(() => {
+        adicionaCardATela(card);
+    })
 
     // Push: cria uma id unica e insere os dados dentro desse id
-    // ref.push(card).then(snapshot => {
-    //     adicionaCardATela(card, snapshot.key);
-    // });
+    ref.push(card).then(snapshot => {
+        adicionaCardATela(card, snapshot.key);
+    });
 
     // Usando fetch para adicionar um card
     fetch("https://curso-firebase-webapps-b0857.firebaseio.com/card.json", {
@@ -55,9 +55,9 @@ function deletar(id) {
     });
 
     // .set(null): ao set um nó em nulo exclui essa método do firebase
-    // ref.child(id).set(null).then(() => {
-    //     card.remove();
-    // });
+    ref.child(id).set(null).then(() => {
+        card.remove();
+    });
 };
 
 /**
@@ -87,7 +87,7 @@ function descurtir(id) {
     var card = document.getElementById(id);
     var count = card.getElementsByClassName("count-number")[0];
     var countNumber = +count.innerHTML;
-    
+
     if (countNumber > 0) {
         countNumber--;
 
@@ -106,112 +106,112 @@ function descurtir(id) {
 document.addEventListener("DOMContentLoaded", function () {
 
     // Habilita as mensagem do firebase de forma detalhada
-    // firebase.database.enableLogging(function(message) {
-    //     console.log("firebase:", message)
-    // });
+    firebase.database.enableLogging(function (message) {
+        console.log("firebase:", message)
+    });
 
     // Once: retorna os dados lidos de uma url
     // snapshot: Objeto retorna pelo leitura
-    // ref.once("value").then(snapshot => {
-    //     /// Lista os cards do snapshot
-    //     // console.log("snapshot:", snapshot.val());
+    ref.once("value").then(snapshot => {
+        /// Lista os cards do snapshot
+        // console.log("snapshot:", snapshot.val());
 
-    //     // Adiciona a lista de cards na tela
-    //     snapshot.forEach(value => {
-    //         adicionaCardATela(value.val(), value.key);
-    //     })
+        // Adiciona a lista de cards na tela
+        snapshot.forEach(value => {
+            adicionaCardATela(value.val(), value.key);
+        })
 
-    //     // Acessa um NÓ filho
-    //     // console.log("child:", snapshot.child("-MDM7TdTG2X6lLCm8jT-").val());
+        // Acessa um NÓ filho
+        console.log("child:", snapshot.child("-MDM7TdTG2X6lLCm8jT-").val());
 
-    //     // Verifica se tem valor
-    //     // console.log("exists:", snapshot.exists());
+        // Verifica se tem valor
+        console.log("exists:", snapshot.exists());
 
-    //     // Se existe o filho passado na url
-    //     // console.log("hasChild.nome", snapshot.hasChild("-MDM7TdTG2X6lLCm8jT-/nome"));
-    //     // console.log("hasChild.comentario", snapshot.hasChild("-MDM7TdTG2X6lLCm8jT-/comentario"));
+        // Se existe o filho passado na url
+        console.log("hasChild.nome", snapshot.hasChild("-MDM7TdTG2X6lLCm8jT-/nome"));
+        console.log("hasChild.comentario", snapshot.hasChild("-MDM7TdTG2X6lLCm8jT-/comentario"));
 
-    //     // Se existe algum finlho no NÓ
-    //     // console.log("hasChildren", snapshot.child("-MDM7TdTG2X6lLCm8jT-").hasChildren());
+        // Se existe algum finlho no NÓ
+        console.log("hasChildren", snapshot.child("-MDM7TdTG2X6lLCm8jT-").hasChildren());
 
-    //     // Número de filho
-    //     // console.log("numChildren", snapshot.child("-MDM7TdTG2X6lLCm8jT-").numChildren());
+        // Número de filho
+        console.log("numChildren", snapshot.child("-MDM7TdTG2X6lLCm8jT-").numChildren());
 
-    //     // Chave da snapshot (caminho)
-    //     // console.log("snapshot.key:", snapshot.key)
-    // });
+        // Chave da snapshot (caminho)
+        console.log("snapshot.key:", snapshot.key)
+    });
 
     // .on(value): Quando houver alguma mudança na url da ref, traz todos os dados novamente
-    // ref.on("value", snapshot => {
-    //     snapshot.forEach(value => {
-    //         adicionaCardATela(value.val(), value.key);
-    //     });
-    // });
+    ref.on("value", snapshot => {
+        snapshot.forEach(value => {
+            adicionaCardATela(value.val(), value.key);
+        });
+    });
 
     // .on(child_added): Monitora cada item inserido, não recebendo tudo novamente, recupera a adição no nó (filnho imediato)
-    // ref.on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val(), snapshot.key);
-    // });
+    ref.on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val(), snapshot.key);
+    });
 
     // .on(child_changed): Monitora qualquer alteração no nó filho
-    // ref.on("child_changed", (snapshot, uid) => {
-    //     console.log(snapshot.key, uid);
-    // });
+    ref.on("child_changed", (snapshot, uid) => {
+        console.log(snapshot.key, uid);
+    });
 
     // .on(child_changed): Monitora quando um nó for escolhido
-    // ref.on("child_removed", snapshot => {
-    //     console.log("removed", snapshot.key);
-    // })
+    ref.on("child_removed", snapshot => {
+        console.log("removed", snapshot.key);
+    })
 
     // Ordenação
     // ** Só é possivel adicionar um método de ordenação por vez
 
     // .orderByChild(): ordena pela prop filha passado como parametro
-    // ref.orderByChild("idade").on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // })
+    ref.orderByChild("idade").on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    })
 
     // .orderByKey(): ordena pela chave dos values
-    // ref.orderByKey().on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // })
+    ref.orderByKey().on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    })
 
     // Filtros
 
     // Filtra a partir do parametro passado
-    // ref.orderByChild("idade").startAt(35).on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // });
+    ref.orderByChild("idade").startAt(35).on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    });
 
     // Filtra até o valor do parametro passado
-    // ref.orderByChild("idade").endAt(35).on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // });
+    ref.orderByChild("idade").endAt(35).on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    });
 
     // Filtra qualquer um com o valor igual ao parametro
-    // ref.orderByChild("idade").equalTo(35).on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // });
+    ref.orderByChild("idade").equalTo(35).on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    });
 
     // Limites
     // Retorna os primeiros até a quantidade passada por parametro
-    // ref.limitToFirst(3).on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // });
+    ref.limitToFirst(3).on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    });
 
     // Retorna os ultimos até a quantidade passada por parametro
-    // ref.limitToLast(3).on("child_added", snapshot => {
-    //     adicionaCardATela(snapshot.val())
-    // });
+    ref.limitToLast(3).on("child_added", snapshot => {
+        adicionaCardATela(snapshot.val())
+    });
 
-    // ref.on("value", snapshot => {
-    //     snapshot.forEach(value => {
-    //         adicionaCardATela(value.val(), value.key);
-    //     });
+    ref.on("value", snapshot => {
+        snapshot.forEach(value => {
+            adicionaCardATela(value.val(), value.key);
+        });
 
-    //     // Remove os observadores
-    //     ref.off("value");
-    // });
+        // Remove os observadores
+        ref.off("value");
+    });
 
     // Usando resquet http em vez das config do firebase
     fetch("https://curso-firebase-webapps-b0857.firebaseio.com/card.json")

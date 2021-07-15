@@ -21,24 +21,24 @@ fileInput.onchange = function (event) {
 
     // Upload
 
-    // // child: Vai acessar o caminho para inserir o arquivo
-    // // put: vai inserir o arquivo
-    // ref.child(uid).put(arquivo, {
-    //     customMetadata: {
-    //         nome: "Fate"
-    //     }
-    // }).then(snapshot => {
-    //     console.log("snapshot", snapshot);
+    // child: Vai acessar o caminho para inserir o arquivo
+    // put: vai inserir o arquivo
+    ref.child(uid).put(arquivo, {
+        customMetadata: {
+            nome: "Fate"
+        }
+    }).then(snapshot => {
+        console.log("snapshot", snapshot);
 
-    //     // getDownloadURL: retorna a url para download/apresentação desse arquivo enviado
-    //     ref.child(uid).getDownloadURL().then(url => {
-    //         console.log('string download', url);
-    //     });
+        // getDownloadURL: retorna a url para download/apresentação desse arquivo enviado
+        ref.child(uid).getDownloadURL().then(url => {
+            console.log('string download', url);
+        });
 
-    //     ref.child(uid).getMetadata().then(metadata => {
-    //         console.log("metadata", metadata);
-    //     });
-    // });
+        ref.child(uid).getMetadata().then(metadata => {
+            console.log("metadata", metadata);
+        });
+    });
 
     // Gerenciar Upload
 
@@ -65,12 +65,12 @@ fileInput.onchange = function (event) {
         });
     });
 
-    // tarefaDeUpload.then(snapshot => {
-    //     console.log("snapshot", snapshot);
-    // }).catch(error => {
-    //     // Pega o erro, nessa caso, os cancelamento da tarefa
-    //     console.log("error", error);
-    // })
+    tarefaDeUpload.then(snapshot => {
+        console.log("snapshot", snapshot);
+    }).catch(error => {
+        // Pega o erro, nessa caso, os cancelamento da tarefa
+        console.log("error", error);
+    })
 }
 
 /**
